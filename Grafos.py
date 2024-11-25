@@ -43,6 +43,4 @@ grafo.adicionar_peso(2, 30)
 grafo.adicionar_peso(3, 40)
 grafo.mostrar_dados()
 
-# Output:
-# Vertice: 1
-# Pesos: [10, 20]
+
