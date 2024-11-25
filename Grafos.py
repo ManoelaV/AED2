@@ -23,9 +23,18 @@ class Grafo:
             self.pesos.append([])
 
     def adicionar_peso(self, vertice, peso):
+        if peso <= 0:
+            print("Peso deve ser positivo")
+            return
         if vertice in self.vertices:
             index = self.vertices.index(vertice)
             self.pesos[index].append(peso)
+
+    def ler_pesos(self, vertice):
+        if vertice in self.vertices:
+            index = self.vertices.index(vertice)
+            return self.pesos[index]
+        return None
 
     def mostrar_dados(self):
         for i in range(len(self.vertices)):
@@ -42,5 +51,4 @@ grafo.adicionar_peso(1, 20)
 grafo.adicionar_peso(2, 30)
 grafo.adicionar_peso(3, 40)
 grafo.mostrar_dados()
-
 
