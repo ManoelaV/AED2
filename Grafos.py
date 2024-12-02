@@ -15,20 +15,18 @@ Este programa deve permitir a entrada dos vértices e os pesos das arestas, cons
 class Grafo:
     def __init__(self):
         self.vertices = []
-        self.pesos = []
+        self.pesos = {}
 
     def adicionar_vertice(self, vertice):
-        if len(self.vertices) < 20:
+        if len(self.vertices) <= 20:
             self.vertices.append(vertice)
-            self.pesos.append([])
+            self.pesos[vertice] = {}
 
-    def adicionar_peso(self, vertice, peso):
+    def adicionar_peso(self, origem, destino, peso):
         if peso <= 0:
             print("Peso deve ser positivo")
             return
-        if vertice in self.vertices:
-            index = self.vertices.index(vertice)
-            self.pesos[index].append(peso)
+        self.pesos[origem][destino] = peso
 
     def ler_pesos(self, vertice):
         if vertice in self.vertices:
@@ -42,13 +40,50 @@ class Grafo:
             print(f"Pesos: {self.pesos[i]}")
             print()
 
-grafo = Grafo()
-grafo.adicionar_vertice(1)
-grafo.adicionar_vertice(2)
-grafo.adicionar_vertice(3)
-grafo.adicionar_peso(1, 10)
-grafo.adicionar_peso(1, 20)
-grafo.adicionar_peso(2, 30)
-grafo.adicionar_peso(3, 40)
-grafo.mostrar_dados()
+"""
+Implementar um programa para calcular os caminhos mínimos
+entre os vértices de um Grafo utilizando o algorítmo de Dijsktra.
 
+1. Permitir o armazenamento de até 20 vértices
+
+2. Fazer a leitura dos pesos das arestas de cada vértice
+
+3. Considerar sempre vértices positivos
+
+4. Mostrar o caminho mínimo entre dois vértices solicitados
+"""
+
+def dijkstra(grafo, origem):
+    vertices = grafo.vertices
+    pesos = grafo.pesos
+    distancias = {vertice: float('inf') for vertice in vertices}
+    distancias[origem] = 0
+    visitados = {vertice: False for vertice in vertices}
+
+    for _ in range(len(vertices)):
+        u = min((vertice for vertice in vertices if not visitados[vertice]), key=distancias.get)
+        visitados[u] = True
+
+        for vizinho, peso in pesos[u].items():
+            if not visitados[vizinho] and distancias[u] + peso < distancias[vizinho]:
+                distancias[vizinho] = distancias[u] + peso
+
+    return distancias
+
+
+grafo = Grafo()
+grafo.adicionar_vertice('A')
+grafo.adicionar_vertice('B')
+grafo.adicionar_vertice('C')
+grafo.adicionar_vertice('D')
+grafo.adicionar_vertice('E')
+
+grafo.adicionar_peso('A', 'B', 10)
+grafo.adicionar_peso('A', 'C', 20)
+grafo.adicionar_peso('B', 'D', 15)
+grafo.adicionar_peso('C', 'D', 30)
+grafo.adicionar_peso('D', 'E', 10)
+grafo.adicionar_peso('E', 'A', 50)
+
+distancias = dijkstra(grafo, 'A')
+print(distancias)
