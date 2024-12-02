@@ -87,3 +87,12 @@ grafo.adicionar_peso('E', 'A', 50)
 
 distancias = dijkstra(grafo, 'A')
 print(distancias)
+
+"""
+Resultados:
+caminho de A para B: 10
+caminho de A para C: 20
+caminho de A para D: 25, vai de A para B e depois de B para D
+caminho de A para E: 35, vai de A para B, de B para D e de D para E
+
+"""
